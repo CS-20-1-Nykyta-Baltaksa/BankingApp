@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BankingApp": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\nykyt\\Desktop\\BankingTest\\input\r\nC:\\Users\\nykyt\\Desktop\\BankingTest\\output"
+    }
+  }
+}
