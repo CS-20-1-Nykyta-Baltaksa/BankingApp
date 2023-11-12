@@ -13,16 +13,12 @@ namespace BankingApp
         public TransactionLogger(string outputFolderPath)
         {
             _outputFolderPath = outputFolderPath;
-            // Ensure the output folder exists
         }
 
         public void LogTransaction(string transactionDetails, bool isSuccess)
         {
             string filename = isSuccess ? "SuccessLog.csv" : "FailureLog.csv";
             string filepath = Path.Combine(_outputFolderPath, filename);
-
-            // Check if file exists and append transaction details
-            // Handle file writing with proper exception handling
         }
     }
 

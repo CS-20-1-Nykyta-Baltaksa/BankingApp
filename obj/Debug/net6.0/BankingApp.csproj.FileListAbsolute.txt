@@ -12,3 +12,6 @@ C:\Users\nykyt\source\repos\BankingApp\obj\Debug\net6.0\refint\BankingApp.dll
 C:\Users\nykyt\source\repos\BankingApp\obj\Debug\net6.0\BankingApp.pdb
 C:\Users\nykyt\source\repos\BankingApp\obj\Debug\net6.0\BankingApp.genruntimeconfig.cache
 C:\Users\nykyt\source\repos\BankingApp\obj\Debug\net6.0\ref\BankingApp.dll
+C:\Users\nykyt\source\repos\BankingApp\obj\Debug\net6.0\BankingApp.csproj.AssemblyReference.cache
+C:\Users\nykyt\source\repos\BankingApp\bin\Debug\net6.0\nunit.framework.dll
+C:\Users\nykyt\source\repos\BankingApp\obj\Debug\net6.0\BankingApp.csproj.CopyComplete

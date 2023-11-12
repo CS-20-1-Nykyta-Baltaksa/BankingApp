@@ -3,13 +3,11 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text.Json;
 using BankingApp;
-// Include any other necessary namespaces
 
 class Program
 {
     static void Main(string[] args)
     {
-        // Argument validation
         if (args.Length < 2)
         {
             Console.WriteLine("Please provide input and output folder paths.");
