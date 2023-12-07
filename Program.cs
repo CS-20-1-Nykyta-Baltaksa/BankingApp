@@ -2,11 +2,13 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using BankingApp;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         if (args.Length < 2)
         {
@@ -28,51 +30,38 @@ class Program
         string[] inputFileNames = Directory.GetFiles(inputFolderPath, "*.csv");
         Array.Sort(inputFileNames);
 
+        var tasks = new List<Task>();
+        var threads = new List<Thread>();
+
         foreach (var fileName in inputFileNames)
         {
-            var lines = File.ReadAllLines(fileName);
-
-            foreach (var line in lines)
+            tasks.Add(Task.Run(async () =>
             {
-                var parts = line.Split(',');
+                await ProcessFileAsync(fileName, debitCard, ref successfulTransactionCount, ref unsuccessfulTransactionCount);
+            }));
 
-                if (parts.Length != 2)
-                {
-                    Console.WriteLine($"Invalid line format: {line}");
-                    continue;
-                }
+            Thread thread = new Thread(() =>
+            {
+                ProcessFile(fileName, debitCard, ref successfulTransactionCount, ref unsuccessfulTransactionCount);
+            });
+            threads.Add(thread);
 
-                string transactionType = parts[0].Trim();
-                if (!decimal.TryParse(parts[1].Trim(), out decimal amount) || amount <= 0)
-                {
-                    Console.WriteLine($"Invalid transaction amount: {parts[1]}");
-                    continue;
-                }
+            ThreadPool.QueueUserWorkItem((state) =>
+            {
+                ProcessFile(fileName, debitCard, ref successfulTransactionCount, ref unsuccessfulTransactionCount);
+            });
+        }
 
-                switch (transactionType)
-                {
-                    case "Deposit":
-                        debitCard.Deposit(amount);
-                        successfulTransactionCount++;
-                        break;
+        await Task.WhenAll(tasks);
 
-                    case "Withdrawal":
-                        bool isSuccess = debitCard.Withdraw(amount);
-                        if (isSuccess)
-                        {
-                            successfulTransactionCount++;
-                        }
-                        else
-                        {
-                            unsuccessfulTransactionCount++;
-                        }
-                        break;
+        foreach (var thread in threads)
+        {
+            thread.Start();
+        }
 
-                    default:
-                        Console.WriteLine($"Unknown transaction type: {transactionType}");
-                        break;
-                }
-            }
+        foreach (var thread in threads)
+        {
+            thread.Join();
         }
 
         var resultData = new
@@ -87,5 +76,99 @@ class Program
         File.WriteAllText(Path.Combine(outputFolderPath, "result.json"), jsonString);
 
         Console.WriteLine("Processing completed. Results are stored in the output folder.");
+    }
+
+    static async Task ProcessFileAsync(string fileName, DebitCard debitCard, ref int successfulTransactionCount, ref int unsuccessfulTransactionCount)
+    {
+        var lines = await File.ReadAllLinesAsync(fileName);
+
+        foreach (var line in lines)
+        {
+            var parts = line.Split(',');
+
+            if (parts.Length != 2)
+            {
+                Console.WriteLine($"Invalid line format: {line}");
+                continue;
+            }
+
+            string transactionType = parts[0].Trim();
+            if (!decimal.TryParse(parts[1].Trim(), out decimal amount) || amount <= 0)
+            {
+                Console.WriteLine($"Invalid transaction amount: {parts[1]}");
+                continue;
+            }
+
+            switch (transactionType)
+            {
+                case "Deposit":
+                    debitCard.Deposit(amount);
+                    Interlocked.Increment(ref successfulTransactionCount);
+                    break;
+
+                case "Withdrawal":
+                    bool isSuccess = debitCard.Withdraw(amount);
+                    if (isSuccess)
+                    {
+                        Interlocked.Increment(ref successfulTransactionCount);
+                    }
+                    else
+                    {
+                        Interlocked.Increment(ref unsuccessfulTransactionCount);
+                    }
+                    break;
+
+                default:
+                    Console.WriteLine($"Unknown transaction type: {transactionType}");
+                    break;
+            }
+        }
+    }
+
+    static void ProcessFile(string fileName, DebitCard debitCard, ref int successfulTransactionCount, ref int unsuccessfulTransactionCount)
+    {
+        var lines = File.ReadAllLines(fileName);
+
+        foreach (var line in lines)
+        {
+            var parts = line.Split(',');
+
+            if (parts.Length != 2)
+            {
+                Console.WriteLine($"Invalid line format: {line}");
+                continue;
+            }
+
+            string transactionType = parts[0].Trim();
+            if (!decimal.TryParse(parts[1].Trim(), out decimal amount) || amount <= 0)
+            {
+                Console.WriteLine($"Invalid transaction amount: {parts[1]}");
+                continue;
+            }
+
+            switch (transactionType)
+            {
+                case "Deposit":
+                    debitCard.Deposit(amount);
+                    Interlocked.Increment(ref successfulTransactionCount);
+                    break;
+
+                case "Withdrawal":
+                    bool isSuccess = debitCard.Withdraw(amount);
+                    if (isSuccess)
+                    {
+                        Interlocked.Increment(ref successfulTransactionCount);
+                    }
+                    else
+                    {
+                        Interlocked.Increment(ref unsuccessfulTransactionCount);
+                    }
+                    break;
+
+                default:
+                    Console.WriteLine($"Unknown transaction type: {transactionType}");
+                    break;
+            }
+        }
     }
 }

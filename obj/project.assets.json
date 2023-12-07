@@ -230,11 +230,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nykyt\\source\\repos\\BankingApp\\BankingApp.csproj",
+      "projectUniqueName": "C:\\Users\\nykyt\\Desktop\\BankingApp-main\\BankingApp.csproj",
       "projectName": "BankingApp",
-      "projectPath": "C:\\Users\\nykyt\\source\\repos\\BankingApp\\BankingApp.csproj",
+      "projectPath": "C:\\Users\\nykyt\\Desktop\\BankingApp-main\\BankingApp.csproj",
       "packagesPath": "C:\\Users\\nykyt\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nykyt\\source\\repos\\BankingApp\\obj\\",
+      "outputPath": "C:\\Users\\nykyt\\Desktop\\BankingApp-main\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nykyt\\AppData\\Roaming\\NuGet\\NuGet.Config",
