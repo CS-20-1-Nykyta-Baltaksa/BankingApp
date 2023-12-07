@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "dSwd7eD5ffTNes3Q1FHwDvKobfXfGHFyie6eXIN5nUm2blR5C5hngrxNAvJVZYw+rvUU+e0k/Yj4fV5l7I0ORw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\nykyt\\source\\repos\\BankingApp\\BankingApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nykyt\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\nykyt\\.nuget\\packages\\netstandard.library\\2.0.0\\netstandard.library.2.0.0.nupkg.sha512",
+    "C:\\Users\\nykyt\\.nuget\\packages\\nunit\\3.14.0\\nunit.3.14.0.nupkg.sha512"
+  ],
+  "logs": []
+}
